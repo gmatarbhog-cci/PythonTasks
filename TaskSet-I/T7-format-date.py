@@ -2,8 +2,6 @@ import datetime
 
 
 def format_date(date):
-    today = datetime.date.today()
-
     # get the day of the month
     day, month, year = map(int, date.split("-"))
 

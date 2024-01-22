@@ -12,13 +12,11 @@ def calculate_sentence_value(sentence):
 
 # get numeric letter value
 def get_alphabet_value(letter):
-    num_value = 0
-    counter = 11
+    ascii_difference = 86
     for alphabet in list(string.ascii_lowercase):
         if letter.lower() == alphabet:
-            num_value = counter
+            num_value = ord(alphabet) - ascii_difference
             return num_value
-        counter += 1
 
 
 print(calculate_sentence_value("Test"))
