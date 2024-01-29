@@ -1,0 +1,1 @@
+SQLALCHEMY_DATABASE_URI = 'mysql://root:sa123456#@localhost:3307/quotes'
