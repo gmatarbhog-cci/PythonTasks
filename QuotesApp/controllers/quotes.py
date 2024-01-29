@@ -16,3 +16,7 @@ def create_quote():
     except SQLAlchemyError as e:
         print(e)
         return jsonify(error="Error while creating the quote."), 500
+
+
+def get_quotes():
+    return quotes_schema.dump(Quote.query.all())

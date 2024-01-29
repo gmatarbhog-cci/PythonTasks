@@ -12,6 +12,7 @@ def create_app():
 
 
 app = create_app()
+# create database tables below
 with app.app_context():
     db.create_all()
 # Register route blueprints
