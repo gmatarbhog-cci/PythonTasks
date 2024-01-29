@@ -40,3 +40,11 @@ def delete_quote(id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while deleting the quote."), 500
+
+
+def get_quote(id):
+    result = Quote.query.filter(Quote.id == id).first()
+    quote = quote_schema.dump(result)
+    if not quote:
+        return jsonify(error="Not found."), 404
+    return quote
