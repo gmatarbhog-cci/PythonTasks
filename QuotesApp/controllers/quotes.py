@@ -3,6 +3,7 @@ from ..models.quotes import Quote, quote_schema, quotes_schema
 from ..database import db
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
+from sqlalchemy import select
 
 
 def create_quote():
@@ -48,3 +49,7 @@ def get_quote(id):
     if not quote:
         return jsonify(error="Not found."), 404
     return quote
+
+
+def get_quote_tags():
+    return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.tags).all())
