@@ -1,11 +1,11 @@
 import json
 
 from flask import request, abort, Response, jsonify
-from ..models.task import Task, tasks_schema
+from ..models.task import Task, tasks_schema, task_schema
 from ..common.constants import status_const
 from ..db import db
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import update
+from sqlalchemy import select
 
 
 def get_tasks():
@@ -44,3 +44,12 @@ def delete_task(id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while deleting the task."), 500
+
+
+def get_task(id):
+    result = Task.query.filter(Task.id == id).first()
+    task = task_schema.dump(result)
+    if not task:
+        return jsonify(error="Not found."), 404
+    task['status'] = status_const[task['status']]
+    return task
