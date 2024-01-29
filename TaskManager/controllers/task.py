@@ -14,3 +14,14 @@ def get_tasks():
         task['status'] = status_const[task['status']]
     return result
 
+
+def create_task():
+    body = request.json
+    task = Task(**body)
+    try:
+        db.session.add(task)
+        db.session.commit()
+        return jsonify({'id': task.id}), 201
+    except SQLAlchemyError:
+        return jsonify(error="Error while creating the task."), 500
+
