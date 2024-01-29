@@ -35,3 +35,12 @@ def update_task(id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while updating the task."), 500
+
+
+def delete_task(id):
+    try:
+        Task.query.filter(Task.id == id).delete()
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while deleting the task."), 500
