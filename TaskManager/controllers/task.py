@@ -1,11 +1,8 @@
-import json
-
-from flask import request, abort, Response, jsonify
+from flask import request, jsonify
 from ..models.task import Task, tasks_schema, task_schema
 from ..common.constants import status_const
 from ..db import db
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import select
 
 
 def get_tasks():
