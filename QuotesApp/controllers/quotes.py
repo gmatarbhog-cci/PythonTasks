@@ -20,3 +20,14 @@ def create_quote():
 
 def get_quotes():
     return quotes_schema.dump(Quote.query.all())
+
+
+def update_quote(id):
+    body = request.json
+    try:
+        query = db.session.query(Quote).filter(Quote.id == id)
+        query.update(body)
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while updating the quote."), 500
