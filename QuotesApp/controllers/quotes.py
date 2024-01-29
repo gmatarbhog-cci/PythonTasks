@@ -31,3 +31,12 @@ def update_quote(id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while updating the quote."), 500
+
+
+def delete_quote(id):
+    try:
+        Quote.query.filter(Quote.id == id).delete()
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while deleting the quote."), 500
