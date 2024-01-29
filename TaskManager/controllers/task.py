@@ -25,3 +25,13 @@ def create_task():
     except SQLAlchemyError:
         return jsonify(error="Error while creating the task."), 500
 
+
+def update_task(id):
+    body = request.json
+    try:
+        query = db.session.query(Task).filter(Task.id == id)
+        query.update(body)
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while updating the task."), 500
