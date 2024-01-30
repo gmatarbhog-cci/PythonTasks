@@ -1,4 +1,6 @@
 from flask import Flask
+
+from .routes.auth import auth
 from .routes.quotes import quotes
 from .database import db
 
@@ -17,3 +19,4 @@ with app.app_context():
     db.create_all()
 # Register route blueprints
 app.register_blueprint(quotes, url_prefix='/quotes')
+app.register_blueprint(auth, url_prefix='/auth')
