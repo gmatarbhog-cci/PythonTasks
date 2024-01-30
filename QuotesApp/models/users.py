@@ -9,7 +9,7 @@ class User(db.Model):
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     email = db.Column(db.String(55))
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(255))
 
 
 class UserSchema(Schema):

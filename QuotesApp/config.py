@@ -1,1 +1,2 @@
 SQLALCHEMY_DATABASE_URI = 'mysql://root:sa123456#@localhost:3307/quotes'
+SECRET_KEY = '7c187ed2b0e44d818722f7ae42230411'
