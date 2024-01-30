@@ -25,3 +25,14 @@ def update_user(self, id):
     except SQLAlchemyError as e:
         print(e)
         return make_response({'error': "Error while updating the user."}, 500)
+
+
+@token_required
+def delete_user(self, id):
+    try:
+        User.query.filter(User.id == id).delete()
+        db.session.commit()
+        return make_response({'id': id}, 200)
+    except SQLAlchemyError as e:
+        print(e)
+        return make_response({'error': "Error while deleting the user."}, 500)
