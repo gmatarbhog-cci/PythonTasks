@@ -19,6 +19,7 @@ def token_required(f):
             # decoding the payload to fetch the stored details
             data = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             user = User.query.filter(User.id == data['user_id']).first()
+            request.headers.user_id = user.id
         except Exception as e:
             print(e)
             return jsonify({

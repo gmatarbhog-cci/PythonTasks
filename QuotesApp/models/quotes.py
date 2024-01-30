@@ -9,6 +9,7 @@ class Quote(db.Model):
     quote = db.Column(db.String(255))
     author = db.Column(db.String(50))
     tags = db.Column(db.String(255))
+    user_id = db.Column(db.String(100))
 
 
 class QuoteSchema(Schema):
@@ -16,6 +17,7 @@ class QuoteSchema(Schema):
     quote = fields.String()
     author = fields.String()
     tags = fields.String()
+    user_id = fields.String()
 
 
 quote_schema = QuoteSchema()

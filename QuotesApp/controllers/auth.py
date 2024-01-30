@@ -12,7 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 def sign_up():
     body = request.json
     email, password = body['email'], body['password']
-    user_exists = User.query.filter(User.email == email).first()
+    user_exists = User.query.filter(User.email == email, User.deleted == 0).first()
     if user_exists:
         return make_response({'error': 'User exists'}, 400)
     user = User(
@@ -34,7 +34,7 @@ def sign_up():
 def sign_in():
     body = request.json
     email, password = body['email'], body['password']
-    user = User.query.filter(User.email == email).first()
+    user = User.query.filter(User.email == email, User.deleted == 0).first()
     if not user:
         return make_response({'error': 'User with the given email does not exist.'}, 400)
     if check_password_hash(user.password, body['password']):

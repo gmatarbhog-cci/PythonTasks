@@ -9,7 +9,7 @@ from ..common.authdecorator import token_required
 
 @token_required
 def get_users(self):
-    return users_schema.dump(User.query.with_entities(User.id, User.first_name, User.last_name, User.email).all())
+    return users_schema.dump(User.query.with_entities(User.id, User.first_name, User.last_name, User.email, User.deleted).all())
 
 
 @token_required
@@ -30,7 +30,10 @@ def update_user(self, id):
 @token_required
 def delete_user(self, id):
     try:
-        User.query.filter(User.id == id).delete()
+        query = db.session.query(User).filter(User.id == id)
+        query.update(
+            {'deleted': 1},
+        )
         db.session.commit()
         return make_response({'id': id}, 200)
     except SQLAlchemyError as e:
