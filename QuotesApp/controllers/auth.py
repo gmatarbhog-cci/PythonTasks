@@ -1,14 +1,13 @@
 import uuid
 from datetime import datetime, timedelta, timezone
-
 import jwt
 from flask import request, jsonify, make_response
 from sqlalchemy.exc import SQLAlchemyError
-
 from ..config import SECRET_KEY
 from ..models.users import User
 from ..database import db
-from  werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 def sign_up():
     body = request.json

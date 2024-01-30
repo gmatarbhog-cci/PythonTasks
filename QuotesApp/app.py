@@ -2,6 +2,7 @@ from flask import Flask
 
 from .routes.auth import auth
 from .routes.quotes import quotes
+from .routes.users import users
 from .database import db
 
 
@@ -20,3 +21,4 @@ with app.app_context():
 # Register route blueprints
 app.register_blueprint(quotes, url_prefix='/quotes')
 app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(users, url_prefix='/users')
