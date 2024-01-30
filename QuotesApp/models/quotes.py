@@ -2,7 +2,6 @@ from ..database import db
 from marshmallow import fields, Schema
 
 
-
 class Quote(db.Model):
     __tablename__ = 'quotes'
 
