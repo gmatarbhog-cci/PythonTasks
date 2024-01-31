@@ -1,14 +1,10 @@
-import json
-
 from flask import request, jsonify
-
 from ..common.authdecorator import token_required
 from ..models.quotes import Quote, quote_schema, quotes_schema
+from ..models.user_quote_reaction import UserQuoteReaction
 from ..database import db
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
-
-from ..models.users import User
 
 
 @token_required
@@ -64,3 +60,23 @@ def get_quote(self, id):
 @token_required
 def get_quote_tags(self):
     return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.tags).all())
+
+
+@token_required
+def like_quote(self, id):
+    try:
+        quote = Quote.query.filter(Quote.id == id).first()
+        if not quote:
+            return jsonify(error="Quote not found."), 404
+
+        quote_reaction = UserQuoteReaction(id=str(uuid.uuid4()), like=True, quote_id=id, user_id=request.headers.user_id)
+
+        query = db.session.query(UserQuoteReaction).filter(UserQuoteReaction.quote_id == id, UserQuoteReaction.user_id == request.headers.user_id)
+        if query.first() is None:
+            db.session.add(quote_reaction)
+        else:
+            query.update({'like': True})
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while liking the quote."), 500
