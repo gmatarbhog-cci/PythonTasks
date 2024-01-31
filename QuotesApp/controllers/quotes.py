@@ -80,3 +80,23 @@ def like_quote(self, id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while liking the quote."), 500
+
+
+@token_required
+def dislike_quote(self, id):
+    try:
+        quote = Quote.query.filter(Quote.id == id).first()
+        if not quote:
+            return jsonify(error="Quote not found."), 404
+
+        quote_reaction = UserQuoteReaction(id=str(uuid.uuid4()), dislike=True, quote_id=id, user_id=request.headers.user_id)
+
+        query = db.session.query(UserQuoteReaction).filter(UserQuoteReaction.quote_id == id, UserQuoteReaction.user_id == request.headers.user_id)
+        if query.first() is None:
+            db.session.add(quote_reaction)
+        else:
+            query.update({'dislike': True})
+        db.session.commit()
+        return jsonify({'id': id})
+    except SQLAlchemyError:
+        return jsonify(error="Error while disliking the quote."), 500

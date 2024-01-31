@@ -1,5 +1,5 @@
 from flask import Blueprint
-from ..controllers.quotes import create_quote, get_quotes, update_quote, delete_quote, get_quote, get_quote_tags, like_quote
+from ..controllers.quotes import create_quote, get_quotes, update_quote, delete_quote, get_quote, get_quote_tags, like_quote, dislike_quote
 
 quotes = Blueprint('quote_blueprint', __name__)
 # Quote routes
@@ -12,3 +12,4 @@ quotes.route('/tags', methods=['GET'])(get_quote_tags)
 
 # User quote reaction Routes
 quotes.route('/<id>/like/up', methods=['PATCH'])(like_quote)
+quotes.route('/<id>/dislike/up', methods=['PATCH'])(dislike_quote)
