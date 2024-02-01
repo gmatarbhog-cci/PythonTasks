@@ -44,3 +44,15 @@ def delete_user(self, id):
 @token_required
 def get_user_quotes(self, id):
     return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.quote).filter(Quote.user_id == id).all())
+
+
+@token_required
+def get_user_disliked_quotes(self, id):
+    res = db.session.query(Quote).join(UserQuoteReaction).filter(UserQuoteReaction.user_id == id, UserQuoteReaction.dislike == True)
+    return quotes_schema.dump(res)
+
+
+@token_required
+def get_user_liked_quotes(self, id):
+    res = db.session.query(Quote).join(UserQuoteReaction).filter(UserQuoteReaction.user_id == id, UserQuoteReaction.like == True)
+    return quotes_schema.dump(res)
