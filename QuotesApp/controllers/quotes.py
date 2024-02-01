@@ -153,3 +153,8 @@ def get_quote_like_users(self, quote_id):
 def get_quote_dislike_users(self, quote_id):
     res = db.session.query(User).join(UserQuoteReaction).filter(UserQuoteReaction.quote_id == quote_id, UserQuoteReaction.dislike==True)
     return users_quote_disliked.dump(res)
+
+
+@token_required
+def get_quote_authors(self):
+    return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.author).all())
