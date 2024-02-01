@@ -1,11 +1,11 @@
 from flask import request, make_response
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash
-
 from ..database import db
 from ..models.users import users_schema, User
 from ..common.authdecorator import token_required
-
+from ..models.quotes import Quote, quotes_schema
+from ..models.user_quote_reaction import UserQuoteReaction
 
 @token_required
 def get_users(self):
@@ -39,3 +39,8 @@ def delete_user(self, id):
     except SQLAlchemyError as e:
         print(e)
         return make_response({'error': "Error while deleting the user."}, 500)
+
+
+@token_required
+def get_user_quotes(self, id):
+    return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.quote).filter(Quote.user_id == id).all())

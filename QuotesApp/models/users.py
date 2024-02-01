@@ -16,6 +16,7 @@ class User(db.Model):
     deleted = db.Column(db.Boolean, server_default=text('0'))
     quotes = relationship("Quote", secondary="user_quote_reaction", back_populates="users")
 
+
 class UserSchema(Schema):
     id = fields.String()
     first_name = fields.String()

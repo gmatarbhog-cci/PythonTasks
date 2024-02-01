@@ -1,8 +1,11 @@
 from flask import Blueprint
-from ..controllers.users import get_users, update_user, delete_user
+from ..controllers.users import get_users, update_user, delete_user, get_user_quotes
 
 users = Blueprint('user_blueprint', __name__)
 
 users.route('/', methods=['GET'])(get_users)
 users.route('/<id>', methods=['PATCH'])(update_user)
 users.route('/<id>', methods=['DELETE'])(delete_user)
+
+# User quote routes
+users.route('/<id>/quotes', methods=['GET'])(get_user_quotes)
