@@ -1,5 +1,4 @@
-from sqlalchemy import text
-
+from sqlalchemy import text, ForeignKey
 from ..database import db
 from marshmallow import fields, Schema
 
@@ -10,8 +9,8 @@ class UserQuoteReaction(db.Model):
     id = db.Column(db.String(100), primary_key=True)
     like = db.Column(db.Boolean(), server_default=text('0'))
     dislike = db.Column(db.Boolean(), server_default=text('0'))
-    quote_id = db.Column(db.String(100))
-    user_id = db.Column(db.String(100))
+    quote_id = db.Column(db.String(100), ForeignKey('quotes.id'))
+    user_id = db.Column(db.String(100), ForeignKey('users.id'))
 
 
 class UserQuoteReactionSchema(Schema):

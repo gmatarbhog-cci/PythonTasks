@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from ..common.authdecorator import token_required
-from ..models.quotes import Quote, quote_schema, quotes_schema
+from ..models.quotes import Quote, quote_schema, quotes_schema, users_quote_liked
+from ..models.users import User
 from ..models.user_quote_reaction import UserQuoteReaction
 from ..database import db
 from sqlalchemy.exc import SQLAlchemyError
@@ -140,3 +141,9 @@ def remove_dislike_quote(self, id):
         return jsonify({'id': id})
     except SQLAlchemyError:
         return jsonify(error="Error while removing the dislike for the quote."), 500
+
+
+@token_required
+def get_quote_like_users(self, quote_id):
+    res = db.session.query(User).join(UserQuoteReaction).filter(UserQuoteReaction.quote_id == quote_id, UserQuoteReaction.like==True)
+    return users_quote_liked.dump(res)

@@ -1,4 +1,5 @@
 from sqlalchemy import text
+from sqlalchemy.orm import relationship
 
 from ..database import db
 from marshmallow import fields, Schema
@@ -13,6 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(55))
     password = db.Column(db.String(255))
     deleted = db.Column(db.Boolean, server_default=text('0'))
+    quotes = relationship("Quote", secondary="user_quote_reaction", back_populates="users")
 
 class UserSchema(Schema):
     id = fields.String()
