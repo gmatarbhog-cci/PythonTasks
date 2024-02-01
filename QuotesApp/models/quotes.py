@@ -33,3 +33,4 @@ class UsersQuoteLikedSchema(Schema):
 quote_schema = QuoteSchema()
 quotes_schema = QuoteSchema(many=True)
 users_quote_liked = UsersQuoteLikedSchema(many=True)
+users_quote_disliked = UsersQuoteLikedSchema(many=True)

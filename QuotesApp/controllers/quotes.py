@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from ..common.authdecorator import token_required
-from ..models.quotes import Quote, quote_schema, quotes_schema, users_quote_liked
+from ..models.quotes import Quote, quote_schema, quotes_schema, users_quote_liked, users_quote_disliked
 from ..models.users import User
 from ..models.user_quote_reaction import UserQuoteReaction
 from ..database import db
@@ -147,3 +147,9 @@ def remove_dislike_quote(self, id):
 def get_quote_like_users(self, quote_id):
     res = db.session.query(User).join(UserQuoteReaction).filter(UserQuoteReaction.quote_id == quote_id, UserQuoteReaction.like==True)
     return users_quote_liked.dump(res)
+
+
+@token_required
+def get_quote_dislike_users(self, quote_id):
+    res = db.session.query(User).join(UserQuoteReaction).filter(UserQuoteReaction.quote_id == quote_id, UserQuoteReaction.dislike==True)
+    return users_quote_disliked.dump(res)
