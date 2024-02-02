@@ -1,4 +1,6 @@
 from flask import request, jsonify
+from sqlalchemy import func, select
+
 from ..common.authdecorator import token_required
 from ..models.quotes import Quote, quote_schema, quotes_schema, users_quote_liked, users_quote_disliked
 from ..models.users import User
@@ -158,3 +160,8 @@ def get_quote_dislike_users(self, quote_id):
 @token_required
 def get_quote_authors(self):
     return quotes_schema.dump(Quote.query.with_entities(Quote.id, Quote.author).all())
+
+
+def update_like_dislike_count():
+    query = db.session.query(func.sum(select(UserQuoteReaction.like))).get()
+    print(query)

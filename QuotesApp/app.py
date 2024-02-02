@@ -1,10 +1,16 @@
 from flask import Flask
 
+from .controllers.quotes import update_like_dislike_count
 from .routes.auth import auth
 from .routes.authors import authors
 from .routes.quotes import quotes
 from .routes.users import users
 from .database import db
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(update_like_dislike_count, 'interval', minutes=1, id='my_job_id')
 
 
 def create_app():

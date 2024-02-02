@@ -11,6 +11,8 @@ class Quote(db.Model):
     id = db.Column(db.String(100), primary_key=True)
     quote = db.Column(db.String(255))
     author = db.Column(db.String(50))
+    like = db.Column(db.Integer())
+    dislike = db.Column(db.Integer())
     tags = db.Column(db.String(255))
     user_id = db.Column(db.String(100), ForeignKey('users.id'))
     users = relationship("User", secondary="user_quote_reaction", back_populates="quotes")
